@@ -20,10 +20,10 @@ nix run
 First build the image.
 
 ```console
-$ nix build --output deltaq-jupyter-docker.tar.gz .#docker
+$ nix build -o deltaq-jupyter-docker.tar.gz .#docker
 
-$ podman load --quiet < deltaq-jupyter-docker.tar.gz
-Loaded image: localhost/jupyter-deltaq:cwvx1149xcdjrqa512gv69gprip4qi3r
+$ docker load --quiet < deltaq-jupyter-docker.tar.gz
+Loaded image: localhost/jupyter-deltaq:rzx6x5vnkz3my987higzf5rcmkfasss5
 ```
 
 
@@ -32,8 +32,8 @@ Loaded image: localhost/jupyter-deltaq:cwvx1149xcdjrqa512gv69gprip4qi3r
 You can push the image to a registry.
 
 ```bash
-podman push localhost/jupyter-deltaq:cwvx1149xcdjrqa512gv69gprip4qi3r \
-            docker.io/bwbush/jupyter-deltaq:cwvx1149xcdjrqa512gv69gprip4qi3r
+docker push localhost/jupyter-deltaq:rzx6x5vnkz3my987higzf5rcmkfasss5 \
+            docker.io/bwbush/jupyter-deltaq:rzx6x5vnkz3my987higzf5rcmkfasss5
 ```
 
 
@@ -42,7 +42,7 @@ podman push localhost/jupyter-deltaq:cwvx1149xcdjrqa512gv69gprip4qi3r \
 You can run the local image, exposing the service on port 9999 for example.
 
 ```bash
-podman run --publish 9999:8888 localhost/jupyter-deltaq:cwvx1149xcdjrqa512gv69gprip4qi3r
+docker run --publish 9999:8888 localhost/jupyter-deltaq:rzx6x5vnkz3my987higzf5rcmkfasss5
 ```
 
 The default password is `deltaq`. You can change this by visiting http://localhost:9999/lab in a web browser. Alternatively, you can use with the default password by visiting http://localhost:9999/lab?token=deltaq.
