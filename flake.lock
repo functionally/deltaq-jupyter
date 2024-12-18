@@ -3,8 +3,8 @@
     "deltaq": {
       "flake": false,
       "locked": {
-        "lastModified": 1733781907,
-        "narHash": "sha256-K75pN3S212JFXJHAAO2SPzPqlSGeZ6E12eAhf1T0mtE=",
+        "lastModified": 1734555217,
+        "narHash": "sha256-IPZp6CRM3c8RD7VeAHb8fLojlIJQm/Mo7IyqfuUcOQc=",
         "path": "/extra/iohk/dq-revamp/lib/deltaq",
         "type": "path"
       },
@@ -556,8 +556,8 @@
     "probability-polynomial": {
       "flake": false,
       "locked": {
-        "lastModified": 1733769263,
-        "narHash": "sha256-G3mLbXttFmFL9wzQK2x1iJ8ny2fL6WTz9LyWkQcqtXw=",
+        "lastModified": 1734555217,
+        "narHash": "sha256-u1qLqjfsw0nPbW3mpBEDg77ML/zseQKgyVOl9BSGVY4=",
         "path": "/extra/iohk/dq-revamp/lib/probability-polynomial",
         "type": "path"
       },
