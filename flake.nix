@@ -78,8 +78,57 @@
           imports = [(import ./kernels.nix {pkgs = pkgs;})];
         });
 
+        docker = pkgs.dockerTools.buildImage {
+          name = "jupyter-deltaq";
+          copyToRoot = pkgs.buildEnv {
+            name = "image-root";
+            paths = [
+              pkgs.dockerTools.usrBinEnv
+              pkgs.dockerTools.binSh
+              pkgs.bash
+              pkgs.coreutils
+              pkgs.nodejs_18
+              jupyterlab
+            ];
+            pathsToLink = [ "/bin" ];
+          };
+          runAsRoot = ''
+            #!${pkgs.runtimeShell}
+            ${pkgs.dockerTools.shadowSetup}
+            groupadd -r deltaq
+            useradd -r -g deltaq deltaq
+            mkdir -p home/deltaq/examples
+            chown -R deltaq:deltaq home/deltaq
+            mkdir -p /usr/bin
+            ln -s /bin/env /usr/bin/env
+          '';
+          extraCommands =
+            let
+              example1 = builtins.readFile "${self}/examples/01 - Introduction.ipynb";
+              example2 = builtins.readFile "${self}/examples/02 - Visualisations.ipynb";
+            in ''
+              #!${pkgs.runtimeShell}
+              chmod 0777 tmp
+              mkdir -p home/deltaq/examples
+              cp -r ${self}/examples home/deltaq/
+            '';
+          config = {
+            User = "deltaq";
+            WorkingDir = "/home/deltaq";
+            Cmd = [
+              "${jupyterlab}/bin/jupyter-lab"
+              "--no-browser"
+              "--port=8888"
+              "--NotebookApp.token=deltaq"
+            ];
+            ExposedPorts = {
+              "8888" = {};
+            };
+          };
+        };
+
       in rec {
-        packages = {inherit jupyterlab;};
+        packages = {inherit jupyterlab docker;};
         packages.default = jupyterlab;
         apps.default.program = "${jupyterlab}/bin/jupyter-lab";
         apps.default.type = "app";
