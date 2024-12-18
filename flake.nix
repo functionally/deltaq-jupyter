@@ -1,5 +1,5 @@
 {
-  description = "DeltaQ";
+  description = "DeltaQ for Jupyter and Docker";
 
   nixConfig.extra-substituters = [
     "https://tweag-jupyter.cachix.org"
@@ -9,7 +9,7 @@
   ];
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
@@ -41,8 +41,30 @@
         overlay = next: prev: {
           haskell = prev.haskell // {
             packageOverrides = hnext: hprev: {
+              # Include the DeltaQ packages.
               deltaq = hprev.callCabal2nixWithOptions "deltaq" deltaq "--no-check" {};
               probability-polynomial = hprev.callCabal2nixWithOptions "probability-polynomial" probability-polynomial "--no-check" {};
+              # Sadly, we need to loosen the dependency constraint that `Chart-cairo` has on `time`.
+              Chart-cairo = hprev.callPackage (
+                { mkDerivation, array, base, cairo, Chart, colour
+                , data-default-class, lens, lib, mtl, old-locale, operational, time
+                }:
+                mkDerivation {
+                  pname = "Chart-cairo";
+                  version = "1.9.4.1";
+                  sha256 = "27cbc2f1237b739eb60c6c470a9324b7ab63974f33116411ea4c2f347ca22074";
+                  prePatch = ''
+                    sed -e '/, time/s/ >=.*$//' -i Chart-cairo.cabal
+                  '';
+                  libraryHaskellDepends = [
+                    array base cairo Chart colour data-default-class lens mtl
+                    old-locale operational time
+                  ];
+                  homepage = "https://github.com/timbod7/haskell-chart/wiki";
+                  description = "Cairo backend for Charts";
+                  license = lib.licenses.bsd3;
+                }
+              ) {};
             };
           };
         };
