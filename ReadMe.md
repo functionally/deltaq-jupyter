@@ -20,7 +20,7 @@ nix run
 First build the image.
 
 ```console
-$ nix build -o deltaq-jupyter-docker.tar.gz .#docker
+$ nix build -o deltaq-jupyter-docker.tar.gz ".#docker"
 
 $ docker load --quiet < deltaq-jupyter-docker.tar.gz
 Loaded image: localhost/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r
