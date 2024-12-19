@@ -1,15 +1,15 @@
 {
   "nodes": {
-    "deltaq": {
+    "dq-revamp": {
       "flake": false,
       "locked": {
         "lastModified": 1734555217,
-        "narHash": "sha256-IPZp6CRM3c8RD7VeAHb8fLojlIJQm/Mo7IyqfuUcOQc=",
-        "path": "/extra/iohk/dq-revamp/lib/deltaq",
+        "narHash": "sha256-k3rSI1RwMix9kCTd40Yedbm/p4wthbhrX75G5MJAQio=",
+        "path": "/extra/iohk/dq-revamp",
         "type": "path"
       },
       "original": {
-        "path": "/extra/iohk/dq-revamp/lib/deltaq",
+        "path": "/extra/iohk/dq-revamp",
         "type": "path"
       }
     },
@@ -553,19 +553,6 @@
         "type": "github"
       }
     },
-    "probability-polynomial": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1734555217,
-        "narHash": "sha256-u1qLqjfsw0nPbW3mpBEDg77ML/zseQKgyVOl9BSGVY4=",
-        "path": "/extra/iohk/dq-revamp/lib/probability-polynomial",
-        "type": "path"
-      },
-      "original": {
-        "path": "/extra/iohk/dq-revamp/lib/probability-polynomial",
-        "type": "path"
-      }
-    },
     "pub2nix": {
       "flake": false,
       "locked": {
@@ -584,12 +571,11 @@
     },
     "root": {
       "inputs": {
-        "deltaq": "deltaq",
+        "dq-revamp": "dq-revamp",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "jupyenv": "jupyenv",
-        "nixpkgs": "nixpkgs_3",
-        "probability-polynomial": "probability-polynomial"
+        "nixpkgs": "nixpkgs_3"
       }
     },
     "rust-overlay": {

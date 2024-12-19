@@ -14,12 +14,8 @@
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
     jupyenv.url = "github:tweag/jupyenv?ref=0c86802aaa3ffd3e48c6f0e7403031c9168a8be2";
-    deltaq = {
-      url = "path:/extra/iohk/dq-revamp/lib/deltaq";
-      flake = false;
-    };
-    probability-polynomial = {
-      url = "path:/extra/iohk/dq-revamp/lib/probability-polynomial";
+    dq-revamp = {
+      url = "path:/extra/iohk/dq-revamp";
       flake = false;
     };
   };
@@ -30,8 +26,7 @@
     flake-utils,
     nixpkgs,
     jupyenv,
-    deltaq,
-    probability-polynomial,
+    dq-revamp,
     ...
   } @ inputs:
     flake-utils.lib.eachSystem [ flake-utils.lib.system.x86_64-linux ]
@@ -42,8 +37,16 @@
           haskell = prev.haskell // {
             packageOverrides = hnext: hprev: {
               # Include the DeltaQ packages.
-              deltaq = hprev.callCabal2nixWithOptions "deltaq" deltaq "--no-check" {};
-              probability-polynomial = hprev.callCabal2nixWithOptions "probability-polynomial" probability-polynomial "--no-check" {};
+              deltaq = hprev.callCabal2nixWithOptions
+                "deltaq"
+                (dq-revamp.outPath + "/lib/deltaq")
+                "--no-check"
+                {};
+              probability-polynomial = hprev.callCabal2nixWithOptions
+                "probability-polynomial"
+                (dq-revamp.outPath + "/lib/probability-polynomial")
+                "--no-check"
+                {};
               # Sadly, we need to loosen the dependency constraint that `Chart-cairo` has on `time`.
               Chart-cairo = hprev.callPackage (
                 { mkDerivation, array, base, cairo, Chart, colour
@@ -97,21 +100,17 @@
             ${pkgs.dockerTools.shadowSetup}
             groupadd -r deltaq
             useradd -r -g deltaq deltaq
-            mkdir -p home/deltaq/examples
-            chown -R deltaq:deltaq home/deltaq
+            mkdir -p /home/deltaq/examples
+            chown -R deltaq:deltaq /home/deltaq
             mkdir -p /usr/bin
             ln -s /bin/env /usr/bin/env
           '';
-          extraCommands =
-            let
-              example1 = builtins.readFile "${self}/examples/01 - Introduction.ipynb";
-              example2 = builtins.readFile "${self}/examples/02 - Visualisations.ipynb";
-            in ''
-              #!${pkgs.runtimeShell}
-              chmod 0777 tmp
-              mkdir -p home/deltaq/examples
-              cp -r ${self}/examples home/deltaq/
-            '';
+          extraCommands = ''
+            #!${pkgs.runtimeShell}
+            chmod 0777 tmp
+            mkdir -p home/deltaq/examples
+            cp -r ${self}/examples home/deltaq/
+          '';
           config = {
             User = "deltaq";
             WorkingDir = "/home/deltaq";
