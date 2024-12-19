@@ -28,7 +28,7 @@ First build the image.
 $ nix build -o deltaq-jupyter-docker.tar.gz ".#docker"
 
 $ docker load --quiet < deltaq-jupyter-docker.tar.gz
-Loaded image: localhost/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r
+Loaded image: localhost/jupyter-deltaq:2mf9zcagms0isg5n94xsml34kj4bn42k
 ```
 
 
@@ -37,8 +37,8 @@ Loaded image: localhost/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r
 You can push the image to a registry.
 
 ```bash
-docker push localhost/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r \
-            docker.io/bwbush/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r
+docker push localhost/jupyter-deltaq:2mf9zcagms0isg5n94xsml34kj4bn42k \
+            docker.io/bwbush/jupyter-deltaq:2mf9zcagms0isg5n94xsml34kj4bn42k
 ```
 
 
@@ -49,13 +49,13 @@ You can run the local image, exposing the service on port 9999 for example. The 
 Locally, 
 
 ```bash
-docker run --publish 9999:8888 localhost/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r
+docker run --publish 9999:8888 localhost/jupyter-deltaq:2mf9zcagms0isg5n94xsml34kj4bn42k
 ```
 
 or from DockerHub,
 
 ```bash
-docker run --publish 9999:8888 docker.io/bwbush/jupyter-deltaq:4xmbzpnvlnj0wxqxvhlqmnmpk2ji237r
+docker run --publish 9999:8888 docker.io/bwbush/jupyter-deltaq:latest
 ```
 
 The default password is `deltaq`: you can change this by visiting http://localhost:9999/lab in a web browser. Alternatively, you can use with the default password by visiting http://localhost:9999/lab?token=deltaq.

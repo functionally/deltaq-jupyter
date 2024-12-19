@@ -6,7 +6,7 @@
     enable = true;
   };
 
-  kernel.haskell.minimal = {
+  kernel.haskell.deltaq = {
     enable = true;
     nixpkgs = pkgs;
     haskellCompiler = "ghc94";
