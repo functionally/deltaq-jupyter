@@ -11,7 +11,7 @@ Launch Jupyter with the iHaskell kernel including the `deltaq` and `probability-
 nix run
 ```
 
-In fact, this Jupyter kernel can be launced without downloading this repository:
+In fact, this Jupyter kernel can be launced without directly cloning this repository:
 
 ```bash
 nix run github:functionally/dq-revamp-jupyter
