@@ -1,18 +1,5 @@
 {
   "nodes": {
-    "dq-revamp": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1734555217,
-        "narHash": "sha256-k3rSI1RwMix9kCTd40Yedbm/p4wthbhrX75G5MJAQio=",
-        "path": "/extra/iohk/dq-revamp",
-        "type": "path"
-      },
-      "original": {
-        "path": "/extra/iohk/dq-revamp",
-        "type": "path"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -571,7 +558,6 @@
     },
     "root": {
       "inputs": {
-        "dq-revamp": "dq-revamp",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "jupyenv": "jupyenv",

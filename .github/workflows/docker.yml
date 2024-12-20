@@ -1,0 +1,47 @@
+name: Docker
+env:
+  ALLOWED_URIS: "https://github.com https://api.github.com"
+  TRUSTED_PUBLIC_KEYS: "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= thelio:KyHAYh2EtAT5skKWlArHRcLhiq3d13u0Pt9BwDJp7UY="
+  SUBSTITUTERS: "https://cache.nixos.org/ https://cache.iog.io http://thelio.functionally.dev:5000"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+on:
+  pull_request:
+  push:
+    branches:
+    - main
+jobs:
+  typecheck:
+    name: Build docker image
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 🛠️ Install Nix
+      uses: cachix/install-nix-action@v21
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+        install_url: https://releases.nixos.org/nix/nix-2.10.3/install
+        extra_nix_config: |
+          allowed-uris = ${{ env.ALLOWED_URIS }}
+          trusted-public-keys = ${{ env.TRUSTED_PUBLIC_KEYS }}
+          substituters = ${{ env.SUBSTITUTERS }}
+          experimental-features = nix-command flakes
+          accept-flake-config = true
+
+    - name: 🏗️ Build image
+      run: |
+        nix build -o deltaq-jupyter-docker.tar.gz .#docker
+
+    - name: 🔑 Log in to GHCR
+      run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: 📦 Push image to GHCR
+      run: |
+        SRC=$(docker load -qi deltaq-jupyter-docker.tar.gz | sed -e 's/^Loaded image: //')
+        DST=ghcr.io/${{ github.repository }}:latest
+        docker tag $SRC $DST
+        docker push $DST
