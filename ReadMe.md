@@ -55,7 +55,7 @@ docker run --publish 9999:8888 localhost/jupyter-deltaq:2mf9zcagms0isg5n94xsml34
 or from DockerHub,
 
 ```bash
-docker run --publish 9999:8888 docker.io/bwbush/jupyter-deltaq:latest
+docker run --publish 9999:8888 ghcr.io/functionally/dq-revamp-jupyter:latest
 ```
 
 The default password is `deltaq`: you can change this by visiting http://localhost:9999/lab in a web browser. Alternatively, you can use with the default password by visiting http://localhost:9999/lab?token=deltaq.

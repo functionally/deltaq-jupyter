@@ -14,10 +14,8 @@
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
     jupyenv.url = "github:tweag/jupyenv?ref=0c86802aaa3ffd3e48c6f0e7403031c9168a8be2";
-    dq-revamp = {
-      url = "path:/extra/iohk/dq-revamp";
-      flake = false;
-    };
+    dq-revamp.url = "github:DeltaQ-SD/dq-revamp";
+    dq-revamp.flake = false;
   };
 
   outputs = {
@@ -29,7 +27,7 @@
     dq-revamp,
     ...
   } @ inputs:
-    flake-utils.lib.eachSystem [ flake-utils.lib.system.x86_64-linux ]
+    flake-utils.lib.eachSystem (with flake-utils.lib.system; [ x86_64-linux ])
     (
       system: let
 
