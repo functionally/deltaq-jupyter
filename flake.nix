@@ -14,8 +14,8 @@
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
     jupyenv.url = "github:tweag/jupyenv?ref=0c86802aaa3ffd3e48c6f0e7403031c9168a8be2";
-    dq-revamp.url = "github:DeltaQ-SD/dq-revamp";
-    dq-revamp.flake = false;
+    deltaq.url = "github:DeltaQ-SD/deltaq";
+    deltaq.flake = false;
   };
 
   outputs = {
@@ -24,7 +24,7 @@
     flake-utils,
     nixpkgs,
     jupyenv,
-    dq-revamp,
+    deltaq,
     ...
   } @ inputs:
     flake-utils.lib.eachSystem (with flake-utils.lib.system; [ x86_64-linux ])
@@ -37,14 +37,40 @@
               # Include the DeltaQ packages.
               deltaq = hprev.callCabal2nixWithOptions
                 "deltaq"
-                (dq-revamp.outPath + "/lib/deltaq")
+                (deltaq.outPath + "/lib/deltaq")
                 "--no-check"
                 {};
               probability-polynomial = hprev.callCabal2nixWithOptions
                 "probability-polynomial"
-                (dq-revamp.outPath + "/lib/probability-polynomial")
+                (deltaq.outPath + "/lib/probability-polynomial")
                 "--no-check"
                 {};
+              # Use a more recent version of `lattices` than is available in the curated Nix package set.
+              lattices = hprev.callPackage (
+                { mkDerivation, base, containers, deepseq, hashable
+                , integer-logarithms, lib, QuickCheck, quickcheck-instances, tagged
+                , tasty, tasty-quickcheck, transformers, universe-base
+                , universe-reverse-instances, unordered-containers
+                }:
+                mkDerivation {
+                  pname = "lattices";
+                  version = "2.2.1";
+                  sha256 = "27063f2343b1547033cd59f61b27f797041ed0c25c921f253ce82dc6fffa7666";
+                  libraryHaskellDepends = [
+                    base containers deepseq hashable integer-logarithms QuickCheck
+                    tagged transformers universe-base universe-reverse-instances
+                    unordered-containers
+                  ];
+                  testHaskellDepends = [
+                    base containers QuickCheck quickcheck-instances tasty
+                    tasty-quickcheck transformers universe-base
+                    universe-reverse-instances unordered-containers
+                  ];
+                  homepage = "http://github.com/phadej/lattices/";
+                  description = "Fine-grained library for constructing and manipulating lattices";
+                  license = lib.licenses.bsd3;
+                }
+              ) {};
               # Sadly, we need to loosen the dependency constraint that `Chart-cairo` has on `time`.
               Chart-cairo = hprev.callPackage (
                 { mkDerivation, array, base, cairo, Chart, colour
