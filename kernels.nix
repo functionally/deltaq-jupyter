@@ -24,6 +24,7 @@
       # Library dependencies
       Chart
       exact-combinatorics
+      lattices
 
       # Test dependencies, not strictly needed but perhaps convenient
       hspec

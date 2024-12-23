@@ -1,6 +1,6 @@
 # Jupyter kernel for DeltaQ
 
-A customized Jupyter iHaskell kernel for use with the [dq-revamp](https://github.com/DeltaQ-SD/dq-revamp) tool.
+A customized Jupyter iHaskell kernel for use with the [deltaq](https://github.com/DeltaQ-SD/deltaq) tool.
 
 
 ## Running a Jupyter server using Nix
@@ -14,7 +14,7 @@ nix run
 In fact, this Jupyter kernel can be launced without directly cloning this repository:
 
 ```bash
-nix run github:functionally/dq-revamp-jupyter
+nix run github:functionally/deltaq-jupyter
 ```
 
 ## Docker
@@ -55,7 +55,7 @@ docker run --publish 9999:8888 localhost/jupyter-deltaq:2mf9zcagms0isg5n94xsml34
 or from DockerHub,
 
 ```bash
-docker run --publish 9999:8888 ghcr.io/functionally/dq-revamp-jupyter:latest
+docker run --publish 9999:8888 ghcr.io/functionally/deltaq-jupyter:latest
 ```
 
 The default password is `deltaq`: you can change this by visiting http://localhost:9999/lab in a web browser. Alternatively, you can use with the default password by visiting http://localhost:9999/lab?token=deltaq.
@@ -65,8 +65,8 @@ Use the "upload" and "download" features to move notebooks in and out of the con
 
 ## Updates
 
-In order to use the latest version of the `dq-revamp` packages, update the nix flake.
+In order to use the latest version of the `deltaq` packages, update the nix flake.
 
 ```bash
-nix flake lock --update-input dq-revamp 
+nix flake lock --update-input deltaq 
 ```
