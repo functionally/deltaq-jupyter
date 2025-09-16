@@ -3,11 +3,11 @@
     "deltaq": {
       "flake": false,
       "locked": {
-        "lastModified": 1742471297,
-        "narHash": "sha256-69NvfLJTcD/u899NTXhTqVfOry65AEvmqTn1QJ15QSc=",
+        "lastModified": 1751447756,
+        "narHash": "sha256-zquyTQEnu76qugFruiIeesmaWHypUOsawlnNE13TJOA=",
         "owner": "DeltaQ-SD",
         "repo": "deltaq",
-        "rev": "2e12a0e3d8c98869eb0801c266b1672471ae5834",
+        "rev": "1b7c70a21627acf253f77b0304e80c562345c277",
         "type": "github"
       },
       "original": {
