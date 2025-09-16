@@ -100,6 +100,27 @@
 
         inherit (jupyenv.lib.${system}) mkJupyterlabNew;
 
+        localHaskell = pkgs.haskellPackages.ghcWithPackages (p: with p; [
+        # ihaskell
+        # ihaskell-charts
+          Chart-cairo
+          deltaq
+          probability-polynomial
+          Chart
+          exact-combinatorics
+          graphviz
+          lattices
+        # hspec
+        # hspec-discover
+        # QuickCheck
+          cassava
+          criterion
+          hvega
+          optparse-applicative
+          statistics
+          vector
+        ]);
+
         jupyterlab = mkJupyterlabNew ({...}: {
           nixpkgs = nixpkgs;
           imports = [(import ./kernels.nix {pkgs = pkgs;})];
@@ -156,6 +177,13 @@
         packages.default = jupyterlab;
         apps.default.program = "${jupyterlab}/bin/jupyter-lab";
         apps.default.type = "app";
+        devShell = pkgs.mkShell {
+          buildInputs = [
+            localHaskell
+            pkgs.haskellPackages.cabal-install
+            pkgs.haskellPackages.lhs2tex
+          ];
+        };
       }
 
     );
